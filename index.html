@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>روابطنا</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+    }
+
+    /* VIDEO BACKGROUND */
+    .video-bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+/* STACK LOGO + CARD */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+width:100%;
+}
+   /* HEADER */
+.header {
+      align-items: center;
+      justify-content: center;
+ 	 display: flex;
+	      width: 100%;
+	max-width:600px;
+    }
+
+
+    /* MAIN CONTAINER */
+    .container {
+      min-height: 100vh;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+ 
+
+    /* CARD */
+    .card {
+      width: 100%;
+      max-width: 600px;
+      background: rgba(0, 0, 0, 0.45);
+      backdrop-filter: blur(8px);
+      padding: clamp(20px, 5vw, 32px);
+      border-radius: 18px;
+      text-align: center;
+    }
+
+    /* LANGUAGE SWITCH */
+    .lang-switch {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .lang-switch button {
+      padding: 6px 14px;
+      border-radius: 20px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      background: rgba(255, 255, 255, 0.85);
+    }
+
+    .lang-switch button.active {
+      background: white;
+    }
+
+    /* LOGO */
+    .logo {
+      width: clamp(390px, 25vw, 110px);
+      height: clamp(250px, 25vw, 110px);
+      object-fit: cover;
+    }
+
+    /* LINKS */
+    .link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px;
+      margin: 12px 0;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.95);
+      color: black;
+      text-decoration: none;
+      font-size: clamp(14px, 4vw, 16px);
+      font-weight: 600;
+      transition: transform 0.2s ease;
+    }
+
+    .link:hover {
+      transform: scale(1.05);
+    }
+
+    /* DESKTOP ENHANCEMENT */
+    @media (min-width: 768px) {
+      .card {
+        max-width: 460px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- BACKGROUND VIDEO -->
+  <video class="video-bg" autoplay muted loop playsinline>
+    <source src="background.mp4" type="video/mp4">
+  </video>
+
+
+<div class="container">
+
+  <div class="content">
+
+    <div class="header">
+      <img src="logo.png" class="logo" alt="App Logo">
+    </div>
+
+    <div class="card">
+
+      <!-- LINKS -->
+      <a href="#" class="link" id="tiktok">
+        <i class="fab fa-tiktok"></i>
+        <span>تيك توك</span>
+      </a>
+
+      <a href="#" class="link" id="ios">
+        <i class="fab fa-apple"></i>
+        <span>تحميل التطبيق (iOS)</span>
+      </a>
+
+      <a href="mailto:support@yourapp.com" class="link" id="support">
+        <i class="fas fa-headset"></i>
+        <span>الدعم الفني</span>
+      </a>
+
+      <!-- LANGUAGE SWITCH -->
+      <div class="lang-switch">
+        <button id="arBtn" class="active">العربية</button>
+        <button id="enBtn">English</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+  <!-- LANGUAGE SCRIPT -->
+  <script>
+    const arBtn = document.getElementById("arBtn");
+    const enBtn = document.getElementById("enBtn");
+
+    const texts = {
+      ar: {
+        dir: "rtl",
+        lang: "ar",
+        tiktok: "تيك توك",
+        ios: "تحميل التطبيق (iOS)",
+        support: "الدعم الفني",
+        title: "روابطنا"
+      },
+      en: {
+        dir: "ltr",
+        lang: "en",
+        tiktok: "TikTok",
+        ios: "Download on iOS",
+        support: "Support / Customer Service",
+        title: "Our Links"
+      }
+    };
+
+    function switchLang(lang) {
+      document.documentElement.lang = texts[lang].lang;
+      document.documentElement.dir = texts[lang].dir;
+      document.title = texts[lang].title;
+
+      document.querySelector("#tiktok span").textContent = texts[lang].tiktok;
+      document.querySelector("#ios span").textContent = texts[lang].ios;
+      document.querySelector("#support span").textContent = texts[lang].support;
+
+      arBtn.classList.toggle("active", lang === "ar");
+      enBtn.classList.toggle("active", lang === "en");
+    }
+
+    arBtn.onclick = () => switchLang("ar");
+    enBtn.onclick = () => switchLang("en");
+  </script>
+
+</body>
+</html>
