@@ -158,6 +158,11 @@ width:100%;
         <span>تحميل التطبيق (iOS)</span>
       </a>
 
+<a href="https://play.google.com/store/apps/details?id=com.fatbalah&pcampaignid=web_share" class="link" id="android">
+  <i class="fab fa-google-play"></i>
+  <span>تحميل التطبيق (Android)</span>
+</a>
+
       <a href="https://api.whatsapp.com/send?phone=966570311738&text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D8%A7%D8%A8%D8%BA%D8%A7%20%D8%A7%D8%B9%D8%B1%D9%81%20%D8%A7%D9%83%D8%AB%D8%B1%2
 " class="link" id="support">
         <i class="fas fa-headset"></i>
@@ -184,6 +189,8 @@ width:100%;
         lang: "ar",
         tiktok: "تيك توك",
         ios: "تحميل التطبيق (iOS)",
+  android: "تحميل التطبيق (Android)",
+
         support: "الدعم الفني",
         title: "روابطنا"
       },
@@ -192,6 +199,8 @@ width:100%;
         lang: "en",
         tiktok: "TikTok",
         ios: "Download on iOS",
+  android: "Download on Android",
+
         support: "Support / Customer Service",
         title: "Our Links"
       }
@@ -204,6 +213,8 @@ width:100%;
 
       document.querySelector("#tiktok span").textContent = texts[lang].tiktok;
       document.querySelector("#ios span").textContent = texts[lang].ios;
+document.querySelector("#android span").textContent = texts[lang].android;
+
       document.querySelector("#support span").textContent = texts[lang].support;
 
       arBtn.classList.toggle("active", lang === "ar");
