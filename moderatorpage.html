@@ -648,7 +648,6 @@ async function loadMatch() {
     loadBtn.disabled    = false;
   }
 }
-
 // ── Export CSV ────────────────────────────────────────────────────────────────
 function exportCSV() {
   const n1 = document.getElementById('team1Name').value;
@@ -656,34 +655,45 @@ function exportCSV() {
 
   // Timestamp: YYYY-MM-DD_HH-MM-SS
   const now      = new Date();
-  const date     = now.toLocaleDateString('en-CA');                   // YYYY-MM-DD
-  const time     = now.toTimeString().slice(0, 8).replace(/:/g, '-'); // HH-MM-SS
+  const date     = now.toLocaleDateString('en-CA');
+  const time     = now.toTimeString().slice(0, 8).replace(/:/g, '-');
   const filename = `match_data_${date}_${time}.csv`;
 
   // Helper to safely wrap values
-const safe = val => `"${String(val).replace(/"/g, '""')}"`;
+  const safe = val => `"${String(val).replace(/"/g, '""')}"`;
 
-const rows = [
-  ['Nickname','Phone','Team','Goals','Assists','Yellow','Red','Notes','Absent','Paid'].map(safe)
-];
-matchData.team1.forEach(p => rows.push([
-  safe(p.nickName), safe(p.phoneNumber), safe(n1),
-  p.goals||0, p.assists||0, p.yellow||0, p.red||0,
-  safe(p.note||''), safe(p.absent?'Yes':'No'), safe(p.paid?'Yes':'No')
-]));
-matchData.team2.forEach(p => rows.push([
-  safe(p.nickName), safe(p.phoneNumber), safe(n2),
-  p.goals||0, p.assists||0, p.yellow||0, p.red||0,
-  safe(p.note||''), safe(p.absent?'Yes':'No'), safe(p.paid?'Yes':'No')
-]));
+  const rows = [
+    ['Nickname','Phone','Team','Goals','Assists','Yellow','Red','Notes','Absent','Paid'].map(safe)
+  ];
+  matchData.team1.forEach(p => rows.push([
+    safe(p.nickname), safe(p.phoneNumber), safe(n1),
+    p.goals||0, p.assists||0, p.yellow||0, p.red||0,
+    safe(p.note||''), safe(p.absent?'Yes':'No'), safe(p.paid?'Yes':'No')
+  ]));
+  matchData.team2.forEach(p => rows.push([
+    safe(p.nickname), safe(p.phoneNumber), safe(n2),
+    p.goals||0, p.assists||0, p.yellow||0, p.red||0,
+    safe(p.note||''), safe(p.absent?'Yes':'No'), safe(p.paid?'Yes':'No')
+  ]));
 
-const csv = 'data:text/csv;charset=utf-8,' + rows.map(r => r.join(',')).join('\r\n');
-  const a   = document.createElement('a');
-  a.setAttribute('href', csv);
+  // BOM + CRLF for maximum compatibility across PC, iPhone, Excel, Numbers
+  const BOM     = '\uFEFF';
+  const content = BOM + rows.map(r => r.join(',')).join('\r\n');
+
+  // Blob is more reliable than data URI especially on mobile/iPhone
+  const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+  const url  = URL.createObjectURL(blob);
+
+  const a = document.createElement('a');
+  a.setAttribute('href', url);
   a.setAttribute('download', filename);
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-}
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 
+  // Clean up blob URL from memory
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
 // ── Event listeners ───────────────────────────────────────────────────────────
 document.getElementById('loadMatch').addEventListener('click', loadMatch);
 document.getElementById('skipMatch').addEventListener('click', () => {
