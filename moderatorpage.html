@@ -354,7 +354,7 @@
   <!-- Add Player -->
   <div class="add-player-card">
     <div class="section-label" data-en="Add New Player" data-ar="إضافة لاعب جديد">Add New Player</div>
-    <input type="text" id="newNickname" placeholder="Nickname" data-en-placeholder="Nickname" data-ar-placeholder="الاسم المستعار">
+    <input type="text" id="newnickname" placeholder="Nickname" data-en-placeholder="Nickname" data-ar-placeholder="الاسم المستعار">
     <input type="text" id="newPhone" placeholder="Phone Number" data-en-placeholder="Phone Number" data-ar-placeholder="رقم الهاتف">
     <select id="newTeam">
       <option value="team1" data-en="Team 1" data-ar="الفريق 1">Team 1</option>
@@ -492,7 +492,7 @@ function updateScore() {
 
 function filterPlayers(players, search) {
   if (!search) return players;
-  return players.filter(p => p.nickName.toLowerCase().includes(search.toLowerCase()));
+  return players.filter(p => p.nickname.toLowerCase().includes(search.toLowerCase()));
 }
 
 // ── Render ────────────────────────────────────────────────────────────────────
@@ -508,7 +508,7 @@ function renderTeams() {
       div.innerHTML = `
         <img class="player-avatar" src="${player.profileImg || 'https://api.dicebear.com/7.x/thumbs/svg?seed=' + player.playerId}" alt="">
         <div class="player-info">
-          <div class="player-name">${player.nickName}</div>
+          <div class="player-name">${player.nickname}</div>
           <div class="player-sub">${player.position || ''} &nbsp;·&nbsp; ${player.phoneNumber}</div>
           <div class="player-stats">
             <span class="stat-badge goals">⚽ ${t('goalsLabel')}: ${player.goals || 0}</span>
@@ -567,22 +567,22 @@ function movePlayer(teamId, id) {
   const player = findPlayer(teamId, id);
   const toKey  = teamId === 'team1' ? 'team2' : 'team1';
   const copy   = { ...player, playerId: String(Date.now()), goals: 0, assists: 0, yellow: 0, red: 0 };
-  copy.nickName += t('movedSuffix');
+  copy.nickname += t('movedSuffix');
   matchData[toKey].push(copy);
   saveData(); renderTeams();
 }
 
 function addPlayer() {
-  const nick  = document.getElementById('newNickname').value.trim();
+  const nick  = document.getElementById('newnickname').value.trim();
   const phone = document.getElementById('newPhone').value.trim();
   const team  = document.getElementById('newTeam').value;
   if (!nick || !phone) return alert(t('missingFields'));
   matchData[team].push({
-    playerId: String(Date.now()), nickName: nick, phoneNumber: phone,
+    playerId: String(Date.now()), nickname: nick, phoneNumber: phone,
     profileImg: '', position: 'Unknown',
     goals: 0, assists: 0, yellow: 0, red: 0
   });
-  document.getElementById('newNickname').value = '';
+  document.getElementById('newnickname').value = '';
   document.getElementById('newPhone').value    = '';
   saveData(); renderTeams();
 }
@@ -615,7 +615,7 @@ async function loadMatch() {
     // Backend returns { team1: [...], team2: [...] } already balanced by position
     matchData.team1 = (data.team1 || []).map(p => ({
       playerId:    String(p._id),
-      nickname:    p.nickName,
+      nickname:    p.nickname,
       phoneNumber: p.phoneNumber,
       profileImg:  p.profileImg  || '',
       position:    p.position    || 'Unknown',
@@ -624,7 +624,7 @@ async function loadMatch() {
 
     matchData.team2 = (data.team2 || []).map(p => ({
       playerId:    String(p._id),
-      nickname:    p.nickName,
+      nickname:    p.nickname,
       phoneNumber: p.phoneNumber,
       profileImg:  p.profileImg  || '',
       position:    p.position    || 'Unknown',
@@ -655,9 +655,9 @@ function exportCSV() {
   const time     = now.toTimeString().slice(0, 8).replace(/:/g, '-'); // HH-MM-SS
   const filename = `match_data_${date}_${time}.csv`;
 
-  const rows = [['Nickname','Phone','Team','Goals','Assists','Yellow','Red','Notes','Absent','Paid']];
-  matchData.team1.forEach(p => rows.push([p.nickName,p.phoneNumber,n1,p.goals||0,p.assists||0,p.yellow||0,p.red||0,p.note||'',p.absent?'Yes':'No',p.paid?'Yes':'No']));
-  matchData.team2.forEach(p => rows.push([p.nickName,p.phoneNumber,n2,p.goals||0,p.assists||0,p.yellow||0,p.red||0,p.note||'',p.absent?'Yes':'No',p.paid?'Yes':'No']));
+  const rows = [['nickname','Phone','Team','Goals','Assists','Yellow','Red','Notes','Absent','Paid']];
+  matchData.team1.forEach(p => rows.push([p.nickname,p.phoneNumber,n1,p.goals||0,p.assists||0,p.yellow||0,p.red||0,p.note||'',p.absent?'Yes':'No',p.paid?'Yes':'No']));
+  matchData.team2.forEach(p => rows.push([p.nickname,p.phoneNumber,n2,p.goals||0,p.assists||0,p.yellow||0,p.red||0,p.note||'',p.absent?'Yes':'No',p.paid?'Yes':'No']));
 
   const csv = 'data:text/csv;charset=utf-8,' + rows.map(r => r.join(',')).join('\n');
   const a   = document.createElement('a');
