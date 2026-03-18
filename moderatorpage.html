@@ -660,11 +660,24 @@ function exportCSV() {
   const time     = now.toTimeString().slice(0, 8).replace(/:/g, '-'); // HH-MM-SS
   const filename = `match_data_${date}_${time}.csv`;
 
-  const rows = [['nickname','Phone','Team','Goals','Assists','Yellow','Red','Notes','Absent','Paid']];
-  matchData.team1.forEach(p => rows.push([p.nickname,p.phoneNumber,n1,p.goals||0,p.assists||0,p.yellow||0,p.red||0,p.note||'',p.absent?'Yes':'No',p.paid?'Yes':'No']));
-  matchData.team2.forEach(p => rows.push([p.nickname,p.phoneNumber,n2,p.goals||0,p.assists||0,p.yellow||0,p.red||0,p.note||'',p.absent?'Yes':'No',p.paid?'Yes':'No']));
+  // Helper to safely wrap values
+const safe = val => `"${String(val).replace(/"/g, '""')}"`;
 
-  const csv = 'data:text/csv;charset=utf-8,' + rows.map(r => r.join(',')).join('\n');
+const rows = [
+  ['Nickname','Phone','Team','Goals','Assists','Yellow','Red','Notes','Absent','Paid'].map(safe)
+];
+matchData.team1.forEach(p => rows.push([
+  safe(p.nickName), safe(p.phoneNumber), safe(n1),
+  p.goals||0, p.assists||0, p.yellow||0, p.red||0,
+  safe(p.note||''), safe(p.absent?'Yes':'No'), safe(p.paid?'Yes':'No')
+]));
+matchData.team2.forEach(p => rows.push([
+  safe(p.nickName), safe(p.phoneNumber), safe(n2),
+  p.goals||0, p.assists||0, p.yellow||0, p.red||0,
+  safe(p.note||''), safe(p.absent?'Yes':'No'), safe(p.paid?'Yes':'No')
+]));
+
+const csv = 'data:text/csv;charset=utf-8,' + rows.map(r => r.join(',')).join('\r\n');
   const a   = document.createElement('a');
   a.setAttribute('href', csv);
   a.setAttribute('download', filename);
