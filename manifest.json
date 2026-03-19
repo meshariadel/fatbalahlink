@@ -2,7 +2,7 @@
   "name": "Moderator Dashboard",
   "short_name": "Moderator",
   "description": "Fatbalah Moderator Dashboard",
-  "start_url": "./moderator_dashboard.html",
+  "start_url": "./moderatorpage.html",
   "display": "standalone",
   "background_color": "#0d0f14",
   "theme_color": "#0d0f14",
