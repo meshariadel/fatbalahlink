@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Moderator Dashboard | لوحة تحكم مشرف</title>
 <link rel="icon" type="image/png" href="icon.png">
-
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Moderator">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Tajawal:wght@400;500;700&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -586,7 +588,7 @@ function subtractAssist(teamId, id) { const p = findPlayer(teamId,id); p.assists
 function addYellow(teamId, id)      { const p = findPlayer(teamId,id); p.yellow   = (p.yellow||0)+1;                 saveData();    renderTeams(); }
 function addRed(teamId, id)         { const p = findPlayer(teamId,id); p.red      = (p.red||0)+1;                    saveData();    renderTeams(); }
 function toggleAbsent(teamId, id)   { const p = findPlayer(teamId,id); p.absent   = !p.absent;                       saveData();    renderTeams(); }
-function togglePaid(teamId, id, cb) { const p = findPlayer(teamId,id); p.paid     = cb.checked;                      saveData();    renderTeams(); }
+function togglePaid(teamId, id, cb) { const p = findPlayer(teamId,id); p.paid     = cb.checked;                      saveData();    renderTeams(); updateScore(); }
 
 function addNote(teamId, id) {
   const note = prompt(t('notePrompt'));
