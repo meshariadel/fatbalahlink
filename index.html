@@ -184,67 +184,48 @@ width:100%;
     const arBtn = document.getElementById("arBtn");
     const enBtn = document.getElementById("enBtn");
 
-   const texts = {
-  ar: {
-    dir: "rtl", lang: "ar",
-    tiktok: "تيك توك",
-    ios: "تحميل التطبيق (iOS)",
-    android: "تحميل التطبيق (Android)",
-    support: "الدعم الفني",
-    title: "روابطنا",
-    rights: "جميع الحقوق محفوظة © مؤسسة زافيون دريم زون",
-    reg: "رقم السجل التجاري: 7050163661",
-    address: "الرياض، حي إشبيلية، شارع قلعة الفسطاط، الرمز البريدي 13226"
-  },
-  en: {
-    dir: "ltr", lang: "en",
-    tiktok: "TikTok",
-    ios: "Download on iOS",
-    android: "Download on Android",
-    support: "Support / Customer Service",
-    title: "Our Links",
-    rights: "All rights reserved © Zavion Dream Zone Est.",
-    reg: "Commercial Registration No.: 7050163661",
-    address: "Riyadh, Ishbiliah District, Qalaah Al Fustat St., Postal Code 13226"
-  }
-};
+    const texts = {
+      ar: {
+        dir: "rtl",
+        lang: "ar",
+        tiktok: "تيك توك",
+        ios: "تحميل التطبيق (iOS)",
+  android: "تحميل التطبيق (Android)",
 
-function switchLang(lang) {
-  document.documentElement.lang = texts[lang].lang;
-  document.documentElement.dir = texts[lang].dir;
-  document.title = texts[lang].title;
+        support: "الدعم الفني",
+        title: "روابطنا"
+      },
+      en: {
+        dir: "ltr",
+        lang: "en",
+        tiktok: "TikTok",
+        ios: "Download on iOS",
+  android: "Download on Android",
 
-  document.querySelector("#tiktok span").textContent = texts[lang].tiktok;
-  document.querySelector("#ios span").textContent = texts[lang].ios;
-  document.querySelector("#android span").textContent = texts[lang].android;
-  document.querySelector("#support span").textContent = texts[lang].support;
+        support: "Support / Customer Service",
+        title: "Our Links"
+      }
+    };
 
-  document.getElementById("footer-rights").textContent = texts[lang].rights;
-  document.getElementById("footer-reg").textContent = texts[lang].reg;
-  document.getElementById("footer-address").textContent = texts[lang].address;
+    function switchLang(lang) {
+      document.documentElement.lang = texts[lang].lang;
+      document.documentElement.dir = texts[lang].dir;
+      document.title = texts[lang].title;
 
-  arBtn.classList.toggle("active", lang === "ar");
-  enBtn.classList.toggle("active", lang === "en");
-}
+      document.querySelector("#tiktok span").textContent = texts[lang].tiktok;
+      document.querySelector("#ios span").textContent = texts[lang].ios;
+document.querySelector("#android span").textContent = texts[lang].android;
+
+      document.querySelector("#support span").textContent = texts[lang].support;
+
+      arBtn.classList.toggle("active", lang === "ar");
+      enBtn.classList.toggle("active", lang === "en");
+    }
+
+    arBtn.onclick = () => switchLang("ar");
+    enBtn.onclick = () => switchLang("en");
   </script>
-<!-- FOOTER -->
-<footer style="
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(8px);
-  color: rgba(255,255,255,0.85);
-  text-align: center;
-  padding: 10px 16px;
-  font-size: clamp(11px, 3vw, 13px);
-  line-height: 1.7;
-  z-index: 10;
-">
-  <div id="footer-rights">جميع الحقوق محفوظة © مؤسسة زافيون دريم زون</div>
-  <div id="footer-reg">رقم السجل التجاري: 7050163661</div>
-  <div id="footer-address">الرياض، حي إشبيلية، شارع قلعة الفسطاط، الرمز البريدي 13226</div>
-</footer>
+
 
 
 </body>
